@@ -1,45 +1,44 @@
 <template>
     <div>
         <p>Username: {{user.username}} </p>
+        <img src={{user.picture}} alt="Profile picture" />
+        <p>Name: {{ user.first_name }} {{user.last_name}} </p>
+        <p>mail: {{ user.mail }}</p>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import axios from 'axios'
+import authHeader from '@/services/auth-header'
 export default defineComponent({
     name: 'login',
     data () {
         return {
             user: {
-                username: ''
+                username: '',
+                first_name: '',
+                last_name: '',
+                mail: '',
+                picture: ''
             }
         }
     },
     methods: {
-        authHeader() {
-            let token = JSON.parse(localStorage.getItem('token') || '');
-            console.log(token)
-            if (token) {
-                return { Authorization: 'Bearer ' + token };
-            } else {
-                return { Authorization: ''};
-            }
-        },
         userId() {
-            let user_id = JSON.parse(localStorage.getItem('user_id') || '');
-            console.log(user_id)
-            if (user_id) {
-                return user_id;
+            let user = JSON.parse(localStorage.getItem('user') || '');
+            console.log(user)
+            if (user) {
+                return user.id;
             } else {
                 return '';
             }
         }
     },
     mounted () {
-        axios.get('http://localhost:3000/users/' + this.userId(), { headers: this.authHeader()})
+        axios.get('http://localhost:3000/users/' + this.userId(), { headers: authHeader()})
             .then((response) => {
-                console.log(response.data)
+                this.user = response.data
             })
             .catch((e: Error) => {
                 console.log(e);
