@@ -37,7 +37,7 @@ export default defineComponent({
                 username: this.user.username,
                 mail: this.user.mail
             }
-            axios.put('http://localhost:3000/users/' + this.userId(), { headers: authHeader(), ...data})
+            axios.put(import.meta.env.VITE_BACKEND_URI + '/users/' + this.userId(), { headers: authHeader(), ...data})
                 .then((response) => {
                     router.push('/profile')
                 })
@@ -47,7 +47,7 @@ export default defineComponent({
         }
     },
     mounted () {
-        axios.get('http://localhost:3000/users/' + this.userId(), { headers: authHeader()})
+        axios.get(import.meta.env.VITE_BACKEND_URI + '/users/' + this.userId(), { headers: authHeader()})
             .then((response) => {
                 this.user = response.data
             })

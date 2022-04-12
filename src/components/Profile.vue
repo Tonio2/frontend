@@ -36,7 +36,7 @@ export default defineComponent({
         }
     },
     mounted () {
-        axios.get('http://localhost:3000/users/' + this.userId(), { headers: authHeader()})
+        axios.get(import.meta.env.VITE_BACKEND_URI + '/users/' + this.userId(), { headers: authHeader()})
             .then((response) => {
                 this.user = response.data
             })
