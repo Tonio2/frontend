@@ -47,7 +47,7 @@ export default defineComponent({
 			}
 			let header = authHeader()
 			header['Content-type'] = 'multipart/form-data'
-            axios.put(import.meta.env.VITE_BACKEND_URI + '/users/' + this.userId(), { headers: authHeader(), ...data})
+            axios.put(import.meta.env.VITE_BACKEND_URI + '/users/' + this.userId(), form_data, {headers: authHeader()})
                 .then((response) => {
                     router.push('/profile')
                 })
