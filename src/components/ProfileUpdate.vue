@@ -47,7 +47,7 @@ export default defineComponent({
 			}
 			let header = authHeader()
 			header['Content-type'] = 'multipart/form-data'
-            axios.put('http://c4r1p4:3000/users/' + this.userId(), form_data, { headers: header})
+            axios.put(import.meta.env.VITE_BACKEND_URI + '/users/' + this.userId(), { headers: authHeader(), ...data})
                 .then((response) => {
                     router.push('/profile')
                 })
@@ -57,7 +57,7 @@ export default defineComponent({
         }
     },
     mounted () {
-        axios.get('http://c4r1p4:3000/users/' + this.userId(), { headers: authHeader()})
+        axios.get(import.meta.env.VITE_BACKEND_URI + '/users/' + this.userId(), { headers: authHeader()})
             .then((response) => {
                 this.user = response.data
             })

@@ -36,8 +36,7 @@ export default defineComponent({
         }
     },
     mounted () {
-		console.log('http://c4r1p4:3000/users/' + this.userId())
-        axios.get('http://c4r1p4:3000/users/' + this.userId(), { headers: authHeader()})
+        axios.get(import.meta.env.VITE_BACKEND_URI + '/users/' + this.userId(), { headers: authHeader()})
             .then((response) => {
 				console.log(response.data)
                 this.user = response.data

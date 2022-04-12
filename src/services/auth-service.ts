@@ -1,5 +1,5 @@
 import axios from 'axios'
-const API_URL = 'http://c4r1p4:3000/'
+const API_URL = import.meta.env.VITE_BACKEND_URI
 
 class AuthService {
     login(code: string) {
