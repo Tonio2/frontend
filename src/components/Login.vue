@@ -30,7 +30,7 @@ export default defineComponent({
 
         if (code)
         {
-            axios.post('http://localhost:3000/test', {code: code.substring(6)})
+            axios.post(import.meta.env.VITE_BACKEND_URI + '/auth/42', {code: code.substring(6)})
                 .then((response: any) => {
                     if (response.data) {
                         console.log(response.data)
