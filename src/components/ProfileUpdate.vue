@@ -40,14 +40,15 @@ export default defineComponent({
                 email: this.user.email
             }
 			let form_data = new FormData()
-			form_data.append('data', data)
+			form_data.append('username', this.user.username)
+			form_data.append('email', this.user.email)
 			form_data.append('file', this.$refs.file.files[0])
 			for(var pair of form_data.entries()) {
 				console.log(pair[0]+ ', '+ pair[1]);
 			}
 			let header = authHeader()
 			header['Content-type'] = 'multipart/form-data'
-            axios.put(import.meta.env.VITE_BACKEND_URI + '/users/' + this.userId(), form_data, {headers: authHeader()})
+            axios.post(import.meta.env.VITE_BACKEND_URI + '/users/' + this.userId(), form_data, {headers: authHeader()})
                 .then((response) => {
                     router.push('/profile')
                 })
