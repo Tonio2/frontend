@@ -1,5 +1,5 @@
 <template>
-    <a href="https://api.intra.42.fr/oauth/authorize?client_id=1b76e904ee2ce7b315874791153354bf72a8dbc6da6dbf702d10846edbc04728&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&response_type=code
+    <a href="https://api.intra.42.fr/oauth/authorize?client_id=1b76e904ee2ce7b315874791153354bf72a8dbc6da6dbf702d10846edbc04728&redirect_uri=http%3A%2F%2Fc4r1p5%3A8080%2F&response_type=code
 " class="btn btn-success">Login</a>
 </template>
 
@@ -24,7 +24,7 @@ export default defineComponent({
         let code = window.location.search
         if (code)
         {
-            axios.post('http://localhost:3000/test', {code: code.substring(6)})
+            axios.post('http://c4r1p4:3000/42/auth', {code: code.substring(6)})
                 .then((response: any) => {
                     if (response.data) {
                         console.log(response.data)

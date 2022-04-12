@@ -1,9 +1,9 @@
 <template>
     <div>
         <p>Username: {{user.username}} </p>
-        <img src={{user.picture}} alt="Profile picture" />
-        <p>Name: {{ user.first_name }} {{user.last_name}} </p>
-        <p>mail: {{ user.mail }}</p>
+        <img v-bind:src="user.picture" height="100" alt="Profile picture" />
+        <p>mail: {{ user.email }}</p>
+		<a href="/profile_update" class="btn btn-primary">Modifier</a>
     </div>
 </template>
 
@@ -19,7 +19,7 @@ export default defineComponent({
                 username: '',
                 first_name: '',
                 last_name: '',
-                mail: '',
+                email: '',
                 picture: ''
             }
         }
@@ -36,8 +36,10 @@ export default defineComponent({
         }
     },
     mounted () {
-        axios.get('http://localhost:3000/users/' + this.userId(), { headers: authHeader()})
+		console.log('http://c4r1p4:3000/users/' + this.userId())
+        axios.get('http://c4r1p4:3000/users/' + this.userId(), { headers: authHeader()})
             .then((response) => {
+				console.log(response.data)
                 this.user = response.data
             })
             .catch((e: Error) => {

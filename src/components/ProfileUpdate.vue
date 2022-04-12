@@ -1,9 +1,11 @@
 <template>
     <div>
         <label for="username">Username</label>
-        <input type="text" id="username" v-model="user.username" name="username" />
+        <input type="text" id="username" v-model="user.username" name="username" /><br />
         <label for="username">mail</label>
-        <input type="text" id="mail" v-model="user.mail" name="mail" />
+        <input type="text" id="mail" v-model="user.email" name="mail" /><br />
+		<label>Picture</label>
+		<input type="file" ref="file" />
         <button @click="saveTutorial" class="btn btn-success">Submit</button>
     </div>
 </template>
@@ -19,7 +21,7 @@ export default defineComponent({
         return {
             user: {
                 username: '',
-                mail: ''
+                email: '',
             }
         }
     },
@@ -35,9 +37,17 @@ export default defineComponent({
         saveTutorial() {
             let data = {
                 username: this.user.username,
-                mail: this.user.mail
+                email: this.user.email
             }
-            axios.put('http://localhost:3000/users/' + this.userId(), { headers: authHeader(), ...data})
+			let form_data = new FormData()
+			form_data.append('data', data)
+			form_data.append('file', this.$refs.file.files[0])
+			for(var pair of form_data.entries()) {
+				console.log(pair[0]+ ', '+ pair[1]);
+			}
+			let header = authHeader()
+			header['Content-type'] = 'multipart/form-data'
+            axios.put('http://c4r1p4:3000/users/' + this.userId(), form_data, { headers: header})
                 .then((response) => {
                     router.push('/profile')
                 })
@@ -47,7 +57,7 @@ export default defineComponent({
         }
     },
     mounted () {
-        axios.get('http://localhost:3000/users/' + this.userId(), { headers: authHeader()})
+        axios.get('http://c4r1p4:3000/users/' + this.userId(), { headers: authHeader()})
             .then((response) => {
                 this.user = response.data
             })
