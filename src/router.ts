@@ -26,4 +26,20 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+router.beforeEach(async (to, from) => {
+	let storedUser = localStorage.getItem('user')
+	let user = {}
+	if (!storedUser)
+	{
+		if (to.name !== 'login')
+			return {name: 'login'}
+	}
+	else
+	{
+		user = JSON.parse(storedUser)
+		if (!user.profile_completed && to.name !== 'profile_update')
+			return {name:'profile_update'}
+	}
+})
 export default router;

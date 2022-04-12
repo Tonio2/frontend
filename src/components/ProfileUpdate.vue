@@ -2,10 +2,9 @@
     <div>
         <label for="username">Username</label>
         <input type="text" id="username" v-model="user.username" name="username" /><br />
-        <label for="username">mail</label>
-        <input type="text" id="mail" v-model="user.email" name="mail" /><br />
+		<img v-bind:src="user.picture" height="100" /><br />
 		<label>Picture</label>
-		<input type="file" ref="file" />
+		<input type="file" ref="file" /><br />
         <button @click="saveTutorial" class="btn btn-success">Submit</button>
     </div>
 </template>
@@ -21,7 +20,7 @@ export default defineComponent({
         return {
             user: {
                 username: '',
-                email: '',
+                picture: '',
             }
         }
     },
@@ -58,13 +57,24 @@ export default defineComponent({
         }
     },
     mounted () {
-        axios.get(import.meta.env.VITE_BACKEND_URI + '/users/' + this.userId(), { headers: authHeader()})
+		let user = JSON.parse(localStorage.getItem('user'))
+		if (!user.profile_completed)
+		{
+			this.user.username = user.username
+			this.user.picture = user.picture
+		}
+		else
+		{
+			axios.get(import.meta.env.VITE_BACKEND_URI + '/users/' + this.userId(), { headers: authHeader()})
             .then((response) => {
-                this.user = response.data
+                this.user.username = response.data.username
+				this.user.picture = response.data.picture
             })
             .catch((e: Error) => {
                 console.log(e);
             });
+		}
+        
     }
 })
 </script>
